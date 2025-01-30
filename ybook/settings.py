@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     # Ybook applications
     'base',
     'authentication',
+    'book',
 
     # Django core applications
     # DO NOT REMOVE

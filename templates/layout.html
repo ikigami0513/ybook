@@ -5,18 +5,37 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}{% endblock title %} | Ybook</title>
-        <script defer src="{% static 'alpine.js' %}"></script>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <script src="{% static 'alpine.js' %}"></script>
         <script src="{% static 'tailwind.js' %}"></script>
         <style type="text/tailwindcss">      
             @theme {
 
             }    
         </style>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const menuLinks = document.querySelectorAll(".menu-link");
+
+                menuLinks.forEach((a) => {
+                    console.log(a.getAttribute("href"));
+                    const a_path = a.getAttribute("href");
+                    const page_path = window.location.pathname;
+
+                    if (a_path === page_path) {
+                        a.classList.add("bg-gray-800");
+                    }
+                });
+            });
+        </script>
     </head>
-    
-    <body class="bg-gray-800">
+
+    <body class="min-h-screen bg-gradient-to-tl from-gray-800 to-indigo-900 flex flex-col">
         {% block navbar %}
-            <nav class="bg-gray-900 text-white border-b border-gray-200 shadow-sm">
+            <nav class="bg-gray-900 text-white border-b border-gray-200 shadow-sm" x-data="{ open: false }">
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between items-center h-16">
                         {# Logo #}
@@ -24,36 +43,88 @@
                             <img src="{% static 'logo.png' %}" alt="Logo de Ybook" class="h-10 m-2 border border-white rounded-md" />
                             <span>YBook</span>
                         </a>
-        
-                        {# Links (hiden on mobile) #}
-                        <div class="hidden md:flex items-center space-x-4">
-                            <a href="{% url 'index_view' %}" class="block px-4 py-2 text-sm hover:bg-gray-800 rounded-md">Accueil</a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-800 rounded-md">Livres</a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-800 rounded-md">Auteurs</a>
-                        </div>
-        
-                        {# Mobile menu button #}
-                        <div class="md:hidden">
-                            <button id="menu-toggle" class="text-text_color hover:text-text_color_hover rounded-md">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                                </svg>
+
+                        {# Search Bar #}
+                        <form action="{% url 'book_list' %}" method="GET" class="hidden md:flex items-center">
+                            <input type="text" name="q" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" value="{% if query %}{{ query }}{% endif %}" />
+                            <button type="submit" class="ml-2 px-3 py-2 rounded-md bg-gradient-to-tl from-gray-800 to-purple-700 border border-white">
+                                <i class="fas fa-search"></i>
                             </button>
+                        </form>
+
+                        {# Links (hidden on mobile) #}
+                        <div class="hidden md:flex items-center space-x-4">
+                            <a href="{% url 'index_view' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Accueil</span>
+                            </a>
+                            <a href="{% url 'book_list' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">
+                                <i class="fa-solid fa-book"></i>
+                                <span>Livres<span>
+                            </a>
                         </div>
+
+                    {# Mobile menu button #}
+                    <div class="md:hidden">
+                        <button @click="open = !open" class="rounded-md focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-        
+
                 {# Mobile menu #}
-                <div id="mobile-menu" class="hidden md:hidden">
+                <div x-show="open" x-transition class="md:hidden bg-gray-900">
                     <div class="space-y-1 px-2 pt-2 pb-3">
-                        <a href="{% url 'index_view' %}" class="text-text_color hover:text-text_color_hover hover:bg-main_color_hover px-3 py-2 rounded-md text-sm font-medium">Accueil</a>
-                        <a href="#" class="text-text_color hover:text-text_color_hover hover:bg-main_color_hover px-3 py-2 rounded-md text-sm font-medium">Livres</a>
-                        <a href="#" class="text-text_color hover:text-text_color_hover hover:bg-main_color_hover px-3 py-2 rounded-md text-sm font-medium">Auteurs</a>
+                        <a href="{% url 'index_view' %}" class="menu-link block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800">Accueil</a>
+                        <a href="{% url 'book_list' %}" class="menu-link block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800">Livres</a>
+                        <hr class="mt-2 mb-2" />
+                        {# Search Bar #}
+                        <div class="flex items-center justify-center">
+                            <form action="{% url 'book_list' %}" method="GET" class="items-center" class="m-2">
+                                <input type="text" name="q" placeholder="Rechercher..." class="px-4 py-2 rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white" value="{% if query %}{{ query }}{% endif %}" />
+                                <button type="submit" class="ml-2 px-3 py-2 rounded-md bg-gradient-to-tl from-gray-800 to-purple-700 border border-white">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </nav>
         {% endblock navbar %}
 
-        {% block content %}{% endblock content %}
+        <main class="flex-1">
+            {% block content %}{% endblock content %}
+        </main>
+
+        {% block footer %}
+            <footer class="bg-gray-900 text-white mt-4">
+                <div class="mx-auto">
+                    <div class="flex items-center justify-between">
+                        <img class="h-32 md:h-auto" src="{% static 'book_left.png' %}" />
+                        <div class="w-full space-y-16">
+                            <div class="flex items-center justify-center">
+                                <img class="h-10 md:h-auto" src="{% static 'logo2.png' %}" class="mx-auto" />
+                            </div>
+                            <div class="flex flex-col md:flex-row justify-between">
+                                <div class="mb-6 md:mb-0">
+                                    <h3 class="text-lg font-semibold">YBook</h3>
+                                    <p class="text-sm">Un outil pour les lillois, par des lillois.</p>
+                                </div>
+                                <div class="flex space-x-6 items-center">
+                                    <a href="{% url 'index_view' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">Accueil</a>
+                                    <a href="{% url 'book_list' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">Livres</a>
+                                </div>
+                            </div>
+                            <div class="mt-6 text-center text-sm">
+                                <p>&copy; 2025 YBook. Tous droits réservés.</p>
+                            </div>
+                        </div>
+                        <img class="h-32 md:h-auto" src="{% static 'book_right.png' %}" />
+                    </div>
+                </div>
+            </footer>
+        {% endblock footer %}
     </body>
 </html>

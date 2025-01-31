@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Livres{% endblock title %}
+
+{% block content %}
+    <div class="max-w-7xl md:mx-auto mx-2 my-4">
+        {% include 'widgets/page_number.html' %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for book in page.object_list %}
+                {% include "widgets/book.html" %}
+            {% endfor %}
+        </div>
+        {% include 'widgets/page_number.html' %}
+    </div>
+{% endblock content %}

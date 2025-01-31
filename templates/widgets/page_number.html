@@ -1,0 +1,23 @@
+<div class="flex items-center justify-center">
+    <div class="bg-gradient-to-tl border border-white from-gray-800 to-purple-700 text-white px-4 py-2 rounded-md my-4 w-2/3 md:w-1/2">
+        <div class="flex items-center justify-between">
+            {% if page.has_previous %}
+                <a href="{% url 'book_list' %}?page={{ page.previous_page_number }}&per_page={{ per_page }}&q={{ query }}" class="rounded-full hover:bg-indigo-500">
+                    <i class="fa-solid fa-chevron-left mx-2"></i>
+                </a>
+            {% else %}
+                <i class="fa-solid fa-chevron-left text-gray-900 mx-2"></i>
+            {% endif %}
+
+            <span>{{ page.number }} / {{ max_page }}</span>
+
+            {% if page.has_next %}
+                <a href="{% url 'book_list' %}?page={{ page.next_page_number }}&per_page={{ per_page }}&q={{ query }}" class="rounded-full hover:bg-indigo-500">
+                    <i class="fa-solid fa-chevron-right mx-2"></i>
+                </a>
+            {% else %}
+                <i class="fa-solid fa-chevron-right text-gray-900 mx-2"></i>
+            {% endif %}
+        </div>
+    </div>
+</div>

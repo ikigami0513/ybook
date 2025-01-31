@@ -23,3 +23,4 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ["title", "seq_no"]
+    search_fields = ["seq_no", "title"]

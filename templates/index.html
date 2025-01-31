@@ -1,7 +1,36 @@
 {% extends 'layout.html' %}
+{% load static %}
 
 {% block title %}Accueil{% endblock title %}
 
 {% block content %}
+    <div class="max-w-7xl my-4 md:mx-auto mx-2">
+        <div class="bg-gray-900 text-white rounded-md mt-4 mb-4">
+            <div class="flex items-center justify-between w-full">
+                <img class="h-32 md:h-auto" src="{% static 'book_left.png' %}" />
+                <img class="h-10 md:h-auto" src="{% static 'logo2.png' %}" class="mx-auto" />
+                <img class="h-32 md:h-auto" src="{% static 'book_right.png' %}" />
+            </div>
+        </div>
+        
+        <div class="text-white text-xl font-bold bg-gradient-to-tl from-gray-800 to-purple-700 border border-white p-2 w-full mb-4 rounded-md">📚 Trouvez le livre le plus susceptible de vous plaire 📚</div>
 
+        <div class="bg-gray-900 text-white p-4 rounded-md mt-4 mb-4">
+            Notre plateforme liste les livres les plus achetés et ceux ayant les meilleures évaluations pour recommander les ouvrages les plus appréciés 
+            par la population de la métropole lilloise.
+        </div>
+
+        <div class="text-white text-xl font-bold bg-gradient-to-tl from-gray-800 to-purple-700 border border-white p-2 w-full mb-4 rounded-md">🔎 Comment ça marche ?</div>
+
+        <div class="bg-gray-900 text-white p-4 rounded-md mt-4 mb-4">
+            Pour commencer nous identifions les livres les plus populaires en fonction des réservations.</p>
+            Ensuite nous réalisons une évaluation des avis en prenant en compte les notes et les commentaires des lecteurs.
+            Et grâce à cela le site vous propose une liste des meilleurs ouvrages proposés à la réservation dans nos médiathèques.
+        </div>
+    
+        <div class="text-white text-xl font-bold bg-gradient-to-tl from-gray-800 to-purple-700 border border-white p-2 w-full mb-4 rounded-md">Découvrez un livre au hasard !</div>
+        {% with book=random_book %}
+            {% include 'widgets/book.html' %}
+        {% endwith %}
+    </div>
 {% endblock content %}

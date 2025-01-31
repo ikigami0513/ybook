@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'authentication',
     'book',
 
+    # Third Party Applications
+    'fontawesomefree',
+
     # Django core applications
     # DO NOT REMOVE
     'django.contrib.admin',

@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}{{ author.full_name }} - Détails{% endblock title %}
+
+{% block content %}
+    <div class="max-w-7xl md:mx-auto mx-2 my-4">
+        <a href="{% url 'book_list' %}?page={{ current_page }}&per_page={{ per_page }}&q={{ query }}" class="bg-gradient-to-tl from-gray-800 to-purple-700 border border-white rounded-md font-semibold p-2 text-white">Retour</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <!-- Image du livre -->
+            <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg flex items-center justify-center">
+                <img class="max-h-96 m-2 border border-white rounded-full" src="{{ author.get_picture }}" alt="Photo de l'auteur">
+            </div>
+
+            <!-- Informations du livre -->
+            <div class="bg-gray-900 text-white p-6 shadow-lg rounded-lg space-y-4">
+                <h1 class="text-3xl font-semibold">{{ author.full_name }}</h1>
+                <p class="text-lg">{{ book.author.full_name }}</p>
+
+                {% if book.publishing_date %}
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>{{ book.publishing_date }}</span>
+                    </div>
+                {% endif %}
+
+
+
+                <div class="flex space-x-4">
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-cake-candles"></i>
+                        <span>
+                            {% if author.birth %}
+                                {{ author.birth }}
+                            {% else %}
+                            -
+                            {% endif%}
+                        </span>
+                    </div>
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-cross"></i>
+                        <span>
+                            {% if author.death %}
+                                {{ author.death }}
+                            {% else %}
+                                -
+                            {% endif%}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="bg-gradient-to-tl from-gray-800 to-purple-700 border border-white text-white text-xl font-bold p-2 w-full mb-4 rounded-md space-x-4">
+                <i class="fa-solid fa-pen-nib"></i>
+                <span>Livres de {{ author.full_name }}</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for book in books %}
+                    {% include "widgets/book.html" %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from typing import Optional
 
 from book.models import PublishingHouse, Author, Book

@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }} - Détails{% endblock title %}
+
+{% block content %}
+    <div class="max-w-7xl md:mx-auto mx-2 my-4">
+        <a href="{% url 'book_list' %}?page={{ current_page }}&per_page={{ per_page }}&q={{ query }}" class="bg-gradient-to-tl from-gray-800 to-purple-700 border border-white rounded-md font-semibold p-2 text-white">Retour</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <!-- Image du livre -->
+            <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                <img class="w-full object-contain max-h-96" src="{{ book.get_cover }}" alt="Couverture du livre">
+            </div>
+
+            <!-- Informations du livre -->
+            <div class="bg-gray-900 text-white p-6 shadow-lg rounded-lg space-y-4">
+                <h1 class="text-3xl font-semibold">{{ book.title }}</h1>
+                <a href="{% url 'author_detail' id=book.author.id %}" class="text-lg mb-4">{{ book.author.full_name }}</a>
+
+                {% if book.publishing_date %}
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <span>{{ book.publishing_date }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="space-x-4">
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-mars text-blue-500"></i>
+                        <span>
+                            {% if book.male_percent %}
+                                {{ book.male_percent }} %
+                            {% else %}
+                            -
+                            {% endif%}
+                        </span>
+                    </div>
+                    <div class="space-x-4">
+                        <i class="fa-solid fa-venus text-pink-500"></i>
+                        <span>
+                            {% if book.female_percent %}
+                                {{ book.female_percent }} %
+                            {% else %}
+                                -
+                            {% endif%}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="space-x-4">
+                    {% if book.average_age%}
+                        <div class="space-x-4">
+                            <i class="fa-solid fa-user"></i> 
+                            <span>{{ book.average_age }} ans en moyenne</span>
+                        </div>
+                    {% endif %}
+                    {% if book.reservation_number %}
+                        <div class="space-x-4">
+                            <i class="fa-solid fa-book-open"></i> 
+                            <span>{{ book.reservation_number }} réservations</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

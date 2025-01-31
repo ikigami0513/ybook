@@ -99,26 +99,18 @@
         </main>
 
         {% block footer %}
-            <footer class="bg-gray-900 text-white mt-4">
+            <footer class="bg-gray-900 text-white mt-4 border-t border-white">
                 <div class="mx-auto">
                     <div class="flex items-center justify-between">
                         <img class="h-32 md:h-auto" src="{% static 'book_left.png' %}" />
-                        <div class="w-full space-y-16">
-                            <div class="flex items-center justify-center">
+                        <div class="w-full flex justify-between">
+                            <div class="flex flex-col items-center justify-center">
                                 <img class="h-10 md:h-auto" src="{% static 'logo2.png' %}" class="mx-auto" />
+                                <p class="text-sm">Un outil pour les lillois, par des lillois.</p>
                             </div>
-                            <div class="flex flex-col md:flex-row justify-between">
-                                <div class="mb-6 md:mb-0">
-                                    <h3 class="text-lg font-semibold">YBook</h3>
-                                    <p class="text-sm">Un outil pour les lillois, par des lillois.</p>
-                                </div>
-                                <div class="flex space-x-6 items-center">
-                                    <a href="{% url 'index_view' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">Accueil</a>
-                                    <a href="{% url 'book_list' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2">Livres</a>
-                                </div>
-                            </div>
-                            <div class="mt-6 text-center text-sm">
-                                <p>&copy; 2025 YBook. Tous droits réservés.</p>
+                            <div class="space-y-6 items-center">
+                                <a href="{% url 'index_view' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2 text-xl">Accueil</a>
+                                <a href="{% url 'book_list' %}" class="menu-link block px-4 py-2 text-sm hover:bg-gray-800 rounded-md space-x-2 text-xl">Livres</a>
                             </div>
                         </div>
                         <img class="h-32 md:h-auto" src="{% static 'book_right.png' %}" />
